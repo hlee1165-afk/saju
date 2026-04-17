@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사주팔자 풀이</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--red:#c0000a;--red2:#e8001a;--red3:#ff6666;--gold:#d4a017;--gold2:#f5c842;--gold3:#ffe88a;--black:#0e0805;--dark:#1c1008;--paper:#fdf6e3;--paper2:#f9edd0;--ink2:#3a2a1a;--ink3:#7a6a5a;--border:#c8a060}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:var(--paper);font-family:'Noto Sans KR',sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(192,0,10,.18) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(212,160,23,.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 60%,rgba(192,0,10,.08) 0%,transparent 50%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(212,160,23,.06) 59px,rgba(212,160,23,.06) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(212,160,23,.06) 59px,rgba(212,160,23,.06) 60px);pointer-events:none;z-index:0}
+.container{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:2rem 1.2rem 5rem}
+
+/* 헤더 */
+.header{text-align:center;margin-bottom:2rem;padding:2.5rem 1.5rem 2rem;background:linear-gradient(180deg,#200a02 0%,#120400 100%);border:2px solid var(--gold);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:5px;border:1px solid rgba(212,160,23,.35);pointer-events:none}
+.header::after{content:'';position:absolute;inset:9px;border:0.5px solid rgba(212,160,23,.12);pointer-events:none}
+.c{position:absolute;width:26px;height:26px;border-color:var(--gold);border-style:solid}
+.c.tl{top:12px;left:12px;border-width:2px 0 0 2px}
+.c.tr{top:12px;right:12px;border-width:2px 2px 0 0}
+.c.bl{bottom:12px;left:12px;border-width:0 0 2px 2px}
+.c.br{bottom:12px;right:12px;border-width:0 2px 2px 0}
+.h-badge{display:inline-block;background:var(--red);color:var(--gold3);font-size:11px;letter-spacing:4px;padding:4px 18px;margin-bottom:14px;border:1px solid var(--gold)}
+.h-title{font-family:'Noto Serif KR',serif;font-size:54px;font-weight:900;letter-spacing:12px;line-height:1;margin-bottom:6px;background:linear-gradient(180deg,var(--gold2) 0%,var(--gold) 50%,#906808 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(212,160,23,.5))}
+.h-hanja{font-family:'Noto Serif KR',serif;font-size:16px;color:rgba(212,160,23,.65);letter-spacing:8px;margin-bottom:14px}
+.h-orn{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0}
+.h-orn hr{border:none;border-top:1px solid var(--gold);width:80px;opacity:.55}
+.os{color:var(--red2);font-size:22px;text-shadow:0 0 12px rgba(232,0,26,.8)}
+.h-sub{font-size:12px;color:rgba(245,200,66,.65);letter-spacing:5px}
+.beads{display:flex;justify-content:center;gap:6px;margin:14px 0 2px}
+.bd{width:8px;height:8px;border-radius:50%}
+.bd.r{background:var(--red2);box-shadow:0 0 6px var(--red2)}
+.bd.g{background:var(--gold2);box-shadow:0 0 6px var(--gold2)}
+
+/* 폼 */
+.form-wrap{background:rgba(18,5,0,.92);border:1px solid var(--gold);padding:2rem 1.8rem;position:relative}
+.form-wrap::before{content:'';position:absolute;inset:3px;border:0.5px solid rgba(212,160,23,.18);pointer-events:none}
+.ftitle{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--gold2);letter-spacing:4px;margin-bottom:1.8rem;text-align:center;padding-bottom:12px;border-bottom:1px solid rgba(212,160,23,.25)}
+.ftitle span{color:var(--red3)}
+.field{margin-bottom:1.3rem}
+.field label{display:block;font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:7px;font-weight:500}
+.field input,.field select{width:100%;padding:11px 14px;background:rgba(35,12,2,.95);border:1px solid rgba(212,160,23,.38);color:var(--paper);font-family:'Noto Sans KR',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus{border-color:var(--gold2);background:rgba(55,18,4,.95)}
+.field select option{background:#1c0a02}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gbtn{padding:11px;background:rgba(35,12,2,.95);border:1px solid rgba(212,160,23,.3);color:rgba(212,160,23,.55);font-size:13px;font-family:'Noto Sans KR',sans-serif;cursor:pointer;text-align:center;transition:all .2s;letter-spacing:2px}
+.gbtn.on{border-color:var(--red);background:rgba(192,0,10,.18);color:var(--red3);text-shadow:0 0 8px rgba(255,100,100,.5)}
+.go-btn{width:100%;padding:16px;background:linear-gradient(180deg,#c0000a 0%,#8b0000 100%);color:var(--gold2);border:1px solid var(--gold);font-family:'Noto Serif KR',serif;font-size:16px;letter-spacing:5px;cursor:pointer;margin-top:10px;transition:all .2s;text-shadow:0 0 8px rgba(245,200,66,.4);box-shadow:0 0 20px rgba(192,0,10,.35),inset 0 1px 0 rgba(255,120,120,.15)}
+.go-btn:hover{background:linear-gradient(180deg,#e8001a 0%,#a00000 100%);box-shadow:0 0 30px rgba(232,0,26,.55),inset 0 1px 0 rgba(255,120,120,.2);letter-spacing:6px}
+
+/* 결과 */
+.result-wrap{display:none}
+.rbanner{background:linear-gradient(90deg,#1e0000 0%,#2e0000 50%,#1e0000 100%);border:1px solid var(--gold);border-bottom:none;padding:1.4rem;text-align:center;position:relative}
+.rbanner::after{content:'';position:absolute;bottom:-1px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.bname{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:var(--gold2);letter-spacing:2px;margin-bottom:5px;text-shadow:0 0 12px rgba(212,160,23,.35)}
+.binfo{font-size:12px;color:rgba(212,160,23,.55);letter-spacing:2px}
+
+.psec{background:rgba(12,4,0,.95);border:1px solid var(--gold);border-top:none;padding:1.4rem;margin-bottom:.8rem}
+.shead{font-size:11px;color:var(--gold);letter-spacing:4px;margin-bottom:1rem;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center}
+.shead::before,.shead::after{content:'';flex:1;max-width:55px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold))}
+.shead::after{background:linear-gradient(90deg,var(--gold),transparent)}
+
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.pillar{text-align:center;background:rgba(28,7,0,.98);border:1px solid rgba(212,160,23,.3);padding:13px 4px;transition:border-color .2s}
+.pillar:hover{border-color:var(--gold)}
+.pillar.ilju{border-color:var(--red);background:rgba(48,4,0,.98);box-shadow:0 0 14px rgba(192,0,10,.25)}
+.p-name{font-size:10px;color:rgba(212,160,23,.55);letter-spacing:1px;margin-bottom:7px}
+.p-gan{font-family:'Noto Serif KR',serif;font-size:28px;font-weight:700;line-height:1;color:var(--gold2);text-shadow:0 0 8px rgba(212,160,23,.35)}
+.pillar.ilju .p-gan{color:var(--red3);text-shadow:0 0 10px rgba(255,80,80,.45)}
+.p-ji{font-family:'Noto Serif KR',serif;font-size:23px;color:rgba(253,246,227,.8);margin-top:4px}
+.p-oh{font-size:10px;color:rgba(212,160,23,.45);margin-top:5px;letter-spacing:1px}
+.p-ani{font-size:11px;color:var(--red3);margin-top:3px;opacity:.75}
+
+.ohsec{background:rgba(12,4,0,.95);border:1px solid rgba(212,160,23,.35);padding:1.2rem 1.4rem;margin-bottom:.8rem}
+.oh-bars{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.oh-row{display:flex;align-items:center;gap:10px}
+.oh-label{font-size:12px;color:var(--gold);width:55px;letter-spacing:1px}
+.oh-bg{flex:1;height:8px;background:rgba(255,255,255,.05)}
+.oh-fill{height:100%;transition:width .8s ease}
+.oh-cnt{font-size:12px;color:var(--gold);width:20px;text-align:right}
+
+.rcard{background:rgba(12,4,0,.95);border:1px solid rgba(212,160,23,.28);padding:1.4rem 1.5rem;margin-bottom:.7rem;position:relative;transition:border-color .2s}
+.rcard:hover{border-color:rgba(212,160,23,.55)}
+.rcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--red),#600)}
+.rlabel{font-size:10px;color:var(--red3);letter-spacing:4px;margin-bottom:9px;font-weight:500;text-shadow:0 0 8px rgba(255,80,80,.35)}
+.rtext{font-size:14px;color:rgba(245,228,195,.82);line-height:2.1}
+.rtext strong{color:var(--gold2);font-weight:500}
+
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1.4rem}
+.btn-p{padding:14px;background:linear-gradient(180deg,#c0000a 0%,#8b0000 100%);color:var(--gold2);border:1px solid var(--gold);font-family:'Noto Serif KR',serif;font-size:13px;letter-spacing:2px;cursor:pointer;box-shadow:0 0 15px rgba(192,0,10,.28);transition:all .2s}
+.btn-p:hover{box-shadow:0 0 25px rgba(232,0,26,.48);background:linear-gradient(180deg,#e8001a 0%,#a00000 100%)}
+.btn-r{padding:14px;background:transparent;color:rgba(212,160,23,.65);border:1px solid rgba(212,160,23,.35);font-family:'Noto Sans KR',sans-serif;font-size:12px;letter-spacing:2px;cursor:pointer;transition:all .2s}
+.btn-r:hover{border-color:var(--gold);color:var(--gold2);background:rgba(212,160,23,.04)}
+.fnote{text-align:center;font-size:11px;color:rgba(212,160,23,.3);letter-spacing:2px;margin-top:2rem;padding-top:1rem;border-top:.5px solid rgba(212,160,23,.18)}
+
+/* 인쇄 */
+@media print{
+  body{background:#fff!important;color:#1a1a1a!important}
+  body::before,body::after{display:none}
+  .form-wrap{display:none!important}
+  .btn-row,.fnote{display:none!important}
+  .container{padding:0}
+  .header{background:#fff!important;border:2px solid #c0000a!important}
+  .header::before,.header::after{border-color:rgba(192,0,10,.25)!important}
+  .c{border-color:#c0000a!important}
+  .h-title{background:none!important;-webkit-text-fill-color:#c0000a!important;filter:none!important}
+  .h-hanja,.h-sub{color:#c0000a!important;opacity:1!important}
+  .os{color:#c0000a!important;text-shadow:none!important}
+  .h-badge{background:#c0000a!important;color:#fff!important}
+  .bd.r{background:#c0000a!important;box-shadow:none!important}
+  .bd.g{background:#d4a017!important;box-shadow:none!important}
+  .rbanner,.psec,.ohsec,.rcard{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important}
+  .rbanner{border-color:#c0000a!important}
+  .rbanner::after{display:none}
+  .bname{color:#c0000a!important;text-shadow:none!important}
+  .binfo{color:#666!important;opacity:1!important}
+  .shead{color:#c0000a!important}
+  .shead::before,.shead::after{background:#c0000a!important}
+  .pillar{background:#fff!important;border:1px solid #e0d0c0!important;box-shadow:none!important}
+  .pillar.ilju{border-color:#c0000a!important;background:#fff8f8!important}
+  .p-name{color:#999!important}
+  .p-gan{color:#c0000a!important;text-shadow:none!important}
+  .pillar.ilju .p-gan{color:#c0000a!important;text-shadow:none!important}
+  .p-ji{color:#333!important;opacity:1!important}
+  .p-oh{color:#999!important;opacity:1!important}
+  .p-ani{color:#c0000a!important;opacity:1!important}
+  .oh-label,.oh-cnt{color:#c0000a!important}
+  .oh-bg{background:#eee!important}
+  .oh-fill{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .rcard::before{background:#c0000a!important}
+  .rlabel{color:#c0000a!important;text-shadow:none!important}
+  .rtext{color:#333!important}
+  .rtext strong{color:#c0000a!important}
+}
+@media(max-width:480px){
+  .h-title{font-size:38px;letter-spacing:8px}
+  .p-gan{font-size:22px}
+  .p-ji{font-size:18px}
+  .row2{grid-template-columns:1fr}
+  .btn-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+  <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
+  <div class="h-badge">◈ 전통 명리학 ◈</div>
+  <div class="h-title">사주풀이</div>
+  <div class="h-hanja">四 柱 八 字</div>
+  <div class="h-orn"><hr><span class="os">☯</span><span style="color:var(--gold2);font-size:14px">✦</span><span class="os">☯</span><hr></div>
+  <div class="h-sub">생년월일시로 보는 나의 운명</div>
+  <div class="beads">
+    <div class="bd r"></div><div class="bd g"></div><div class="bd r"></div><div class="bd g"></div>
+    <div class="bd r"></div><div class="bd g"></div><div class="bd r"></div><div class="bd g"></div><div class="bd r"></div>
+  </div>
+</div>
+
+<div class="form-wrap" id="form-sec">
+  <div class="ftitle">◈ 사주 정보를 <span>입력</span>하세요 ◈</div>
+  <div class="field"><label>이름 (선택)</label><input type="text" id="uname" placeholder="홍길동" maxlength="10"></div>
+  <div class="row2">
+    <div class="field"><label>생년월일</label><input type="date" id="bd" value="1980-01-15" min="1930-01-01" max="2010-12-31"></div>
+    <div class="field"><label>태어난 시간</label>
+      <select id="bt">
+        <option value="-1">시간 모름</option>
+        <option value="0">자시 (23–01시)</option><option value="1">축시 (01–03시)</option>
+        <option value="2">인시 (03–05시)</option><option value="3">묘시 (05–07시)</option>
+        <option value="4">진시 (07–09시)</option><option value="5">사시 (09–11시)</option>
+        <option value="6">오시 (11–13시)</option><option value="7">미시 (13–15시)</option>
+        <option value="8">신시 (15–17시)</option><option value="9">유시 (17–19시)</option>
+        <option value="10">술시 (19–21시)</option><option value="11">해시 (21–23시)</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label>성별</label>
+    <div class="gender-row">
+      <div class="gbtn on" id="gm" onclick="sg('남')">남성 ♂</div>
+      <div class="gbtn" id="gf" onclick="sg('여')">여성 ♀</div>
+    </div>
+  </div>
+  <button class="go-btn" onclick="run()">🔮 사주풀이 시작 🔮</button>
+</div>
+
+<div class="result-wrap" id="result-sec">
+  <div class="rbanner">
+    <div class="bname" id="bname"></div>
+    <div class="binfo" id="binfo"></div>
+  </div>
+  <div class="psec">
+    <div class="shead">사주팔자 四柱八字</div>
+    <div class="pillars" id="pillars"></div>
+  </div>
+  <div class="ohsec">
+    <div class="shead">오행 분포 五行</div>
+    <div class="oh-bars" id="ohbars"></div>
+  </div>
+  <div id="readings"></div>
+  <div class="btn-row">
+    <button class="btn-p" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+    <button class="btn-r" onclick="resetForm()">↩ 다시 풀이하기</button>
+  </div>
+  <div class="fnote">본 풀이는 전통 명리학 규칙에 기반한 참고용입니다</div>
+</div>
+</div>
+<script>
+const GAN=['갑','을','병','정','무','기','경','신','임','계'];
+const JI=['자','축','인','묘','진','사','오','미','신','유','술','해'];
+const GAN_OH=['목','목','화','화','토','토','금','금','수','수'];
+const JI_OH=['수','토','목','목','토','화','화','토','금','금','토','수'];
+const JI_A=['쥐','소','호랑이','토끼','용','뱀','말','양','원숭이','닭','개','돼지'];
+const OH_KR={목:'목(木)',화:'화(火)',토:'토(土)',금:'금(金)',수:'수(水)'};
+const OH_C={목:'#4caf50',화:'#f44336',토:'#ff9800',금:'#bdbdbd',수:'#2196f3'};
+const JEOLGI={1930:[6,4,6,5,6,6,7,8,8,8,8,7],1931:[6,4,6,6,6,6,7,8,8,8,8,8],1932:[6,5,6,5,6,6,7,8,8,8,7,7],1933:[6,4,6,5,6,6,7,8,8,8,8,7],1934:[6,4,6,5,6,6,7,8,8,8,8,7],1935:[6,5,6,6,6,6,7,8,8,8,8,8],1936:[6,5,6,5,6,6,7,8,8,8,7,7],1937:[6,4,6,5,6,6,7,8,8,8,8,7],1938:[6,4,6,5,6,6,7,8,8,8,8,7],1939:[6,5,6,6,6,7,7,8,8,8,8,8],1940:[6,5,6,5,6,6,7,8,8,8,7,7],1941:[5,4,6,5,6,6,7,8,8,8,7,7],1942:[6,4,6,5,6,6,7,8,8,8,8,7],1943:[6,4,6,6,6,6,7,8,8,8,8,8],1944:[6,5,6,5,6,6,7,8,8,8,7,7],1945:[6,4,6,5,6,6,7,8,8,8,8,7],1946:[6,4,6,5,6,6,7,8,8,8,8,7],1947:[6,5,6,6,6,6,7,8,8,8,8,8],1948:[6,5,6,5,6,6,7,8,8,8,7,7],1949:[6,4,6,5,6,6,7,8,8,8,8,7],1950:[6,4,6,5,6,6,7,8,8,8,8,7],1951:[6,5,6,6,6,6,7,8,8,8,8,8],1952:[6,5,6,5,6,6,7,8,8,8,7,7],1953:[6,4,6,5,6,6,7,8,8,8,8,7],1954:[6,4,6,5,6,6,7,8,8,8,8,7],1955:[6,5,6,6,6,6,7,8,8,8,8,8],1956:[6,5,6,5,6,6,7,8,8,8,7,7],1957:[6,4,6,5,6,6,7,8,8,8,8,7],1958:[6,4,6,5,6,6,7,8,8,8,8,7],1959:[6,5,6,6,6,7,8,8,8,8,8,8],1960:[6,5,6,5,6,6,7,8,8,8,7,7],1961:[5,4,5,5,6,6,7,8,8,8,7,7],1962:[6,4,6,5,6,6,7,8,8,8,8,7],1963:[6,4,6,6,6,6,7,8,8,8,8,8],1964:[6,5,6,5,6,6,7,8,8,8,7,7],1965:[6,4,6,5,6,6,7,8,8,8,8,7],1966:[6,4,6,5,6,6,7,8,8,8,8,7],1967:[6,5,6,6,6,6,7,8,8,8,8,8],1968:[6,5,6,5,6,6,7,8,8,8,7,7],1969:[6,4,6,5,6,6,7,8,8,8,8,7],1970:[6,4,6,5,6,6,7,8,8,8,8,7],1971:[6,5,6,6,6,6,7,8,8,8,8,8],1972:[6,5,6,5,6,6,7,8,8,8,7,7],1973:[6,4,6,5,6,6,7,8,8,8,8,7],1974:[6,4,6,5,6,6,7,8,8,8,8,7],1975:[6,5,6,6,6,6,7,8,8,8,8,8],1976:[6,5,6,5,6,6,7,8,8,8,7,7],1977:[6,4,6,5,6,6,7,8,8,8,7,7],1978:[6,4,6,5,6,6,7,8,8,8,8,7],1979:[6,4,6,5,6,6,7,8,8,8,8,8],1980:[6,5,6,5,6,6,7,8,8,8,7,7],1981:[5,4,6,5,6,6,7,8,8,8,7,7],1982:[6,4,6,5,6,6,7,8,8,8,8,7],1983:[6,4,6,6,6,6,7,8,8,8,8,8],1984:[6,5,6,5,6,6,7,8,8,8,7,7],1985:[5,4,6,5,6,6,7,8,8,8,7,7],1986:[6,4,6,5,6,6,7,8,8,8,8,7],1987:[6,4,6,6,6,6,7,8,8,8,8,8],1988:[6,5,6,5,6,6,7,8,8,8,7,7],1989:[5,4,6,5,6,6,7,8,8,8,7,7],1990:[6,4,6,5,6,6,7,8,8,8,8,7],1991:[6,4,6,6,6,6,7,8,8,8,8,8],1992:[6,5,6,5,6,6,7,8,8,8,7,7],1993:[5,4,6,5,6,6,7,8,8,8,7,7],1994:[6,4,6,5,6,6,7,8,8,8,8,7],1995:[6,5,6,6,6,6,7,8,8,8,8,8],1996:[6,5,6,5,6,6,7,8,8,8,7,7],1997:[5,4,6,5,6,6,7,8,8,8,7,7],1998:[6,4,6,5,6,6,7,8,8,8,8,7],1999:[6,4,6,6,6,6,7,8,8,8,8,8],2000:[6,5,6,5,6,6,7,8,8,8,7,7],2001:[5,4,6,5,6,6,7,8,8,8,7,7],2002:[6,4,6,5,6,6,7,8,8,8,8,7],2003:[6,5,6,6,6,6,7,8,8,8,8,8],2004:[6,5,6,5,6,6,7,8,8,8,7,7],2005:[5,4,6,5,6,6,7,8,8,8,7,7],2006:[6,4,6,5,6,6,7,8,8,8,8,7],2007:[6,5,6,6,6,6,7,8,8,8,8,8],2008:[7,5,6,5,6,6,7,8,8,8,7,7],2009:[5,4,6,5,6,6,7,8,8,8,7,7],2010:[6,4,6,5,6,6,7,8,8,8,8,7]};
+function getMJ(y,m,d){const jg=JEOLGI[y]||JEOLGI[2000];const mtj=[1,2,3,4,5,6,7,8,9,10,11,0];const pmtj=[0,1,2,3,4,5,6,7,8,9,10,11];const i=m-1;return d<jg[i]?pmtj[i]:mtj[i];}
+function getMG(yg,mj){const b={갑:2,을:4,병:6,정:8,무:0,기:2,경:4,신:6,임:8,계:0};const jo=[10,11,0,1,2,3,4,5,6,7,8,9];return(b[yg]+jo[mj])%10;}
+function jd(y,m,d){const a=Math.floor((14-m)/12),yr=y+4800-a,mo=m+12*a-3;return d+Math.floor((153*mo+2)/5)+365*yr+Math.floor(yr/4)-Math.floor(yr/100)+Math.floor(yr/400)-32045;}
+function yP(y){return{g:(y-4+4000)%10,j:(y-4+4000)%12};}
+function mP(y,m,d){const p=yP(y);const mj=getMJ(y,m,d);return{g:getMG(GAN[p.g],mj),j:mj};}
+function dP(y,m,d){const j=jd(y,m,d);return{g:(j+9)%10,j:(j+1)%12};}
+function tP(dg,ti){if(ti<0)return null;const b=[0,2,4,6,8,0,2,4,6,8];return{g:(b[dg]+ti)%10,j:ti};}
+
+const ID={
+  갑:{ch:'큰 나무처럼 하늘을 향해 뻗어 나가는 기질을 가진 분입니다. 리더십이 강하고 목표를 향해 직진하는 추진력이 있습니다. 인자하고 포용력이 넓어 주변 사람들이 자연스럽게 따르는 카리스마가 있습니다.',ta:'교육·경영·정치·건설 분야에서 탁월한 능력을 발휘합니다. 사람을 이끌고 큰 그림을 그리는 일에서 두각을 나타내며 기획력과 실행력을 동시에 갖춘 드문 인재입니다.',wk:'지나친 고집과 완고함으로 갈등을 빚을 수 있습니다. 타인의 의견을 경청하고 유연하게 조율하는 자세가 필요합니다.',ad:'뿌리 깊은 나무처럼 인내와 꾸준함으로 나아가세요. 서두르지 않아도 때가 되면 반드시 결실을 맺습니다. 주변의 소중한 인연을 잘 가꾸는 것이 인생 최대의 자산이 됩니다.'},
+  을:{ch:'부드럽게 바람에 흔들리는 풀처럼 유연하고 적응력이 뛰어납니다. 섬세한 감수성과 예술적 감각이 풍부하며 인간관계에서 특유의 따뜻함으로 사람들의 마음을 얻습니다.',ta:'예술·디자인·상담·서비스 분야에서 남다른 재능을 보입니다. 섬세한 관찰력과 공감 능력으로 사람의 마음을 읽는 능력이 탁월하여 인간 중심의 직업에서 빛납니다.',wk:'우유부단하거나 의존적인 면이 나타날 수 있습니다. 자신의 의견을 명확히 표현하고 독립적인 결정을 내리는 연습이 필요합니다.',ad:'유연함은 최고의 강점입니다. 어떤 환경에서도 적응하고 성장하는 능력을 믿으세요. 협력과 조화 속에서 더 큰 것을 이룰 수 있으며 당신의 섬세함이 세상을 더 아름답게 만듭니다.'},
+  병:{ch:'태양처럼 밝고 강렬한 에너지를 가진 분입니다. 열정적이고 활동적이며 주변을 밝히는 타고난 존재감이 있습니다. 긍정적인 에너지로 어두운 환경도 밝게 바꾸는 힘이 있습니다.',ta:'방송·연예·마케팅·영업·스포츠 분야에서 탁월합니다. 무대 위에 서거나 사람들 앞에서 빛나는 자질을 타고났으며 강한 표현력과 설득력으로 어디서든 주목받습니다.',wk:'충동적이고 성급한 면이 있어 시작은 화려하나 마무리가 약할 수 있습니다. 지속적인 에너지 관리와 끈기 있게 마무리하는 습관이 중요합니다.',ad:'당신의 열정은 세상을 밝히는 빛입니다. 태양도 지는 시간이 필요하듯 쉬어가는 것도 용기임을 기억하세요. 충동보다 계획으로, 빠름보다 깊이로 나아갈 때 진정한 성취를 이룹니다.'},
+  정:{ch:'은은하게 타오르는 촛불처럼 따뜻하고 헌신적인 성품을 가졌습니다. 섬세한 감수성과 깊은 공감 능력으로 주변 사람들에게 안정과 위안을 주는 존재입니다.',ta:'의료·복지·교육·상담·요리 분야에서 진가를 발휘합니다. 사람을 돕고 치유하는 일에서 타고난 재능이 있으며 세심한 배려와 따뜻한 마음씨가 최고의 무기입니다.',wk:'지나치게 감정적이거나 자신을 희생하는 경향이 있습니다. 타인을 돌보기 전에 자신을 먼저 챙기는 건강한 경계를 유지하는 것이 중요합니다.',ad:'당신의 따뜻함은 세상에 꼭 필요한 빛입니다. 자신을 먼저 사랑하는 것이 더 많은 사람을 도울 수 있는 길임을 기억하세요. 작은 친절이 모여 큰 변화를 만든다는 것을 삶으로 보여줄 분입니다.'},
+  무:{ch:'든든한 산처럼 안정적이고 신뢰감 있는 성품을 가졌습니다. 책임감이 강하고 포용력이 넓어 공동체의 기둥 역할을 자연스럽게 맡습니다. 중용을 지키며 균형을 유지하는 능력이 탁월합니다.',ta:'부동산·건설·농업·행정·금융 분야에서 능력을 발휘합니다. 안정적으로 기반을 쌓고 오래 유지하는 능력이 있으며 신뢰를 바탕으로 한 사업이나 조직 운영에서 두각을 나타냅니다.',wk:'변화에 느리게 반응하거나 고집스러운 면이 있습니다. 새로운 것을 받아들이는 유연함과 변화의 흐름을 적극적으로 포용하는 자세가 필요합니다.',ad:'산처럼 묵묵히 자리를 지키는 힘이 당신의 가장 큰 덕목입니다. 변화를 두려워하지 말고 새로운 것도 품어안으세요. 꾸준한 신뢰 쌓기가 결국 가장 빛나는 성공의 길입니다.'},
+  기:{ch:'기름진 땅처럼 모든 것을 품고 키워내는 따뜻한 성품을 가졌습니다. 세심하고 꼼꼼하며 작은 것에서 큰 가치를 찾아내는 능력이 있습니다. 부드러우면서도 끈질긴 내면의 힘이 있습니다.',ta:'농업·식품·유통·교육·복지 분야에서 진가를 발휘합니다. 씨앗을 심고 가꾸어 열매를 맺게 하는 과정에서 타고난 재능이 있으며 오랜 노력 끝에 풍성한 결실을 이룹니다.',wk:'지나치게 걱정하거나 우유부단해지는 경향이 있습니다. 작은 문제에 너무 집착하기보다 큰 그림을 보는 시야를 키우는 것이 중요합니다.',ad:'작은 것에서 큰 가치를 찾는 당신의 능력은 소중한 재능입니다. 꾸준한 노력이 반드시 황금 같은 결실로 돌아옵니다. 스스로를 믿고 한 걸음씩 나아가세요.'},
+  경:{ch:'강철처럼 단단하고 원칙적인 성품을 가졌습니다. 냉철한 판단력과 강한 결단력으로 어떤 어려움도 헤쳐나가는 불굴의 의지가 있습니다. 의리와 신념을 중요시하는 의협심이 강합니다.',ta:'법률·군사·의료·경찰·금융 분야에서 탁월합니다. 강한 원칙과 정확한 판단이 필요한 분야에서 두각을 나타내며 위기 상황에서 냉정하게 대처하는 능력이 뛰어납니다.',wk:'완벽주의로 인한 스트레스와 타인과의 갈등이 생길 수 있습니다. 때로는 완벽하지 않아도 괜찮다는 여유와 타인에 대한 관용이 필요합니다.',ad:'강한 원칙과 신념은 세상을 바르게 만드는 힘입니다. 때로는 유연함도 힘이 됨을 기억하세요. 쇠가 달구어져 더 강해지듯 경험이 당신을 더욱 빛나게 할 것입니다.'},
+  신:{ch:'빛나는 보석처럼 날카로운 통찰력과 세련된 감각을 가졌습니다. 섬세하고 예리한 판단력으로 본질을 꿰뚫어 보는 능력이 있습니다. 완벽을 추구하는 기질로 어느 분야에서든 전문성을 쌓습니다.',ta:'의료·연구·IT·디자인·법률 분야에서 뛰어납니다. 정밀함과 섬세함이 필요한 전문 분야에서 최고의 실력을 발휘하며 완벽에 가까운 결과물을 만들어내는 능력이 있습니다.',wk:'지나친 완벽주의로 결정을 미루거나 자신을 너무 몰아붙일 수 있습니다. 80점짜리 완성이 100점짜리 미완성보다 낫다는 것을 기억하는 것이 중요합니다.',ad:'예리한 판단력은 최고의 무기입니다. 결정을 내린 후에는 자신을 믿고 앞으로 나아가세요. 완벽을 위한 준비도 중요하지만 실행이 최고의 스승임을 잊지 마세요.'},
+  임:{ch:'큰 강처럼 넓고 깊은 지혜와 포용력을 가진 분입니다. 자유롭고 개방적인 사고방식으로 새로운 아이디어와 가능성을 발견합니다. 어떤 환경에도 적응하는 뛰어난 유연성이 있습니다.',ta:'무역·IT·외교·물류·학문 분야에서 탁월합니다. 국제적 감각과 넓은 시야로 세계 무대에서 활약하는 능력이 있으며 정보와 지식을 모아 새로운 가치를 창출하는 능력이 뛰어납니다.',wk:'주의가 산만해지거나 깊이 없이 넓기만 한 지식에 그칠 수 있습니다. 한 분야에 집중하여 깊이를 더하는 전문성 개발이 중요합니다.',ad:'큰 강처럼 넓은 마음으로 세상을 품으세요. 깊은 지혜로 모든 장애를 유연하게 넘어갈 수 있습니다. 당신의 자유로운 영혼이 세상에 새로운 물결을 일으킬 것입니다.'},
+  계:{ch:'깊은 샘처럼 고요하고 풍부한 내면의 세계를 가진 분입니다. 남다른 통찰력과 직관으로 사람과 상황의 본질을 꿰뚫어 봅니다. 겸손하고 조용하지만 내면에는 강한 에너지가 흐릅니다.',ta:'철학·종교·연구·예술·심리 분야에서 두각을 나타냅니다. 보이지 않는 것을 보는 능력과 깊은 사유로 남들이 발견하지 못한 진리를 찾아내며 지식의 깊이로 세상에 공헌합니다.',wk:'지나치게 내향적이거나 혼자만의 세계에 갇힐 수 있습니다. 생각을 행동으로 옮기고 세상과 적극적으로 소통하는 자세가 필요합니다.',ad:'깊은 통찰력으로 남들이 보지 못한 것을 봅니다. 그 소중한 지혜를 세상과 나누세요. 고요한 물이 깊은 곳까지 흘러가듯 당신의 삶도 깊고 넓은 영향을 미칩니다.'}
+};
+const YL={
+  자:{fl:'초년에는 조용하고 내면적인 시기를 보내며 자신만의 세계를 구축합니다. 30대 이후 지혜와 경험이 쌓이면서 진가를 발휘하고 50대 이후 지혜로운 어른으로서 존경받는 삶을 삽니다.',lk:'47세 이후'},
+  축:{fl:'묵묵히 기초를 쌓아가는 삶의 방식으로 남들보다 늦게 피는 꽃처럼 중년 이후 안정된 결실을 맺습니다. 40대부터 노력의 결실이 나타나며 말년이 풍요롭습니다.',lk:'42세 이후'},
+  인:{fl:'젊은 시절부터 활발하게 움직이며 도전과 성장의 에너지가 넘칩니다. 20~30대에 큰 기회가 찾아오며 적극적인 도전이 빛나는 결과를 만들어냅니다.',lk:'28세 이후'},
+  묘:{fl:'감수성과 예술적 감각이 풍부하며 인연의 힘으로 좋은 기회를 맞이합니다. 30~40대에 인간관계에서 큰 도움을 받으며 귀인을 만날 가능성이 높습니다.',lk:'33세 이후'},
+  진:{fl:'큰 꿈과 포부를 품고 변화의 시기마다 새로운 도약을 이룹니다. 변화무쌍하지만 그 속에서 강해지며 40대 이후 큰 성취를 이루는 드라마틱한 인생을 삽니다.',lk:'40세 이후'},
+  사:{fl:'지혜롭고 통찰력이 강해 위기를 기회로 바꾸는 능력이 탁월합니다. 초년의 어려움이 오히려 단단한 기반이 되며 35세 이후 두드러진 성장을 이룹니다.',lk:'35세 이후'},
+  오:{fl:'열정과 활력이 넘치며 중년에 사회적 인정과 명예를 얻습니다. 30~50대가 인생의 황금기이며 적극적인 활동과 리더십으로 빛나는 성과를 냅니다.',lk:'32세 이후'},
+  미:{fl:'넉넉하고 풍요로운 기운으로 인복이 많습니다. 꾸준하고 안정적인 삶 속에서 서서히 기반을 쌓아가며 말년이 특히 편안하고 행복합니다.',lk:'45세 이후'},
+  신:{fl:'강한 추진력과 날카로운 판단력으로 전문 분야에서 두각을 나타냅니다. 경쟁적인 환경에서 강해지는 기질로 30~40대에 집중적인 성과를 거둡니다.',lk:'30세 이후'},
+  유:{fl:'완벽을 추구하는 기질로 전문성을 키워 중년 이후 인정받는 삶을 삽니다. 꾸준한 실력 축적이 결국 빛을 발하며 45세 이후 최고의 전성기를 맞이합니다.',lk:'45세 이후'},
+  술:{fl:'파란만장한 삶의 여정 속에서도 끝내 빛나는 결실을 이룹니다. 굴곡진 경험들이 오히려 깊은 지혜가 되어 50대 이후 인생의 완성을 이루는 강한 운명입니다.',lk:'50세 이후'},
+  해:{fl:'자유롭고 넓은 세계를 추구하며 국제적이거나 창의적인 분야에서 두각을 나타냅니다. 30대 이후 넓은 무대에서 활약하며 끊임없는 도전으로 풍요로운 삶을 만들어 갑니다.',lk:'35세 이후'}
+};
+const OH_H={목:{g:'화(火)·수(水)',b:'금(金)',t:'수(水)의 기운을 보완하면 더욱 빛납니다'},화:{g:'토(土)·목(木)',b:'수(水)',t:'목(木)의 기운으로 지속적인 열정을 유지하세요'},토:{g:'금(金)·화(火)',b:'목(木)',t:'화(火)의 에너지로 더욱 단단해집니다'},금:{g:'수(Water)·토(土)',b:'화(火)',t:'수(水)를 가까이 하면 예리함이 더욱 빛납니다'},수:{g:'목(木)·금(金)',b:'토(土)',t:'금(金)의 기운이 지혜를 더욱 깊게 합니다'}};
+
+let sg_='남';
+function sg(g){sg_=g;document.getElementById('gm').classList.toggle('on',g==='남');document.getElementById('gf').classList.toggle('on',g==='여');}
+function resetForm(){document.getElementById('form-sec').style.display='block';document.getElementById('result-sec').style.display='none';window.scrollTo(0,0);}
+
+function run(){
+  const val=document.getElementById('bd').value;
+  if(!val){alert('생년월일을 입력해주세요');return;}
+  const[y,m,d]=val.split('-').map(Number);
+  const ti=parseInt(document.getElementById('bt').value);
+  const name=document.getElementById('uname').value.trim()||'손님';
+  const yp=yP(y),mp=mP(y,m,d),dp=dP(y,m,d),tp=tP(dp.g,ti);
+  const ps=[{name:'년주(年柱)',...yp},{name:'월주(月柱)',...mp},{name:'일주(日柱)',...dp,ilju:true},{name:'시주(時柱)',g:tp?tp.g:-1,j:tp?tp.j:-1,unknown:!tp}];
+  const ohC={목:0,화:0,토:0,금:0,수:0};
+  ps.forEach(p=>{if(!p.unknown){ohC[GAN_OH[p.g]]++;ohC[JI_OH[p.j]]++;}});
+  const maxO=Math.max(...Object.values(ohC));
+  const dom=Object.entries(ohC).sort((a,b)=>b[1]-a[1])[0][0];
+
+  document.getElementById('bname').textContent=name+'님의 사주풀이';
+  document.getElementById('binfo').textContent=`${y}년 ${m}월 ${d}일 · ${sg_}성 · ${ti>=0?JI[ti]+'시':'시간미상'}`;
+  document.getElementById('pillars').innerHTML=ps.map(p=>`<div class="pillar${p.ilju?' ilju':''}"><div class="p-name">${p.name}</div><div class="p-gan">${p.unknown?'—':GAN[p.g]}</div><div class="p-ji">${p.unknown?'—':JI[p.j]}</div><div class="p-oh">${p.unknown?'시간미상':OH_KR[GAN_OH[p.g]]}</div><div class="p-ani">${p.unknown?'':JI_A[p.j]+'띠'}</div></div>`).join('');
+  document.getElementById('ohbars').innerHTML=['목','화','토','금','수'].map(oh=>`<div class="oh-row"><div class="oh-label">${OH_KR[oh]}</div><div class="oh-bg"><div class="oh-fill" style="width:${maxO>0?Math.round(ohC[oh]/maxO*100):0}%;background:${OH_C[oh]}"></div></div><div class="oh-cnt">${ohC[oh]}</div></div>`).join('');
+
+  const ig=GAN[dp.g];const id=ID[ig];const yl=YL[JI[yp.j]];const harm=OH_H[dom];
+  document.getElementById('readings').innerHTML=`
+    <div class="rcard"><div class="rlabel">◈ 성격과 기질</div><div class="rtext">일간 <strong>${ig}(${OH_KR[GAN_OH[dp.g]]})</strong>을 타고난 ${sg_}성입니다.<br><br>${id.ch}</div></div>
+    <div class="rcard"><div class="rlabel">◉ 강점과 재능</div><div class="rtext">${id.ta}</div></div>
+    <div class="rcard"><div class="rlabel">◎ 주의할 점</div><div class="rtext">${id.wk}</div></div>
+    <div class="rcard"><div class="rlabel">◈ 인생의 흐름 (년지: ${JI[yp.j]} · ${JI_A[yp.j]}띠)</div><div class="rtext">${yl.fl}<br><br><strong>행운의 시기:</strong> ${yl.lk}가 특히 좋은 운이 따릅니다.</div></div>
+    <div class="rcard"><div class="rlabel">◉ 오행 분석 (주된 기운: ${OH_KR[dom]})</div><div class="rtext"><strong>잘 맞는 기운:</strong> ${harm.g}<br><strong>조심할 기운:</strong> ${harm.b}<br><strong>보완 조언:</strong> ${harm.t}</div></div>
+    <div class="rcard"><div class="rlabel">◇ 삶의 조언</div><div class="rtext">${id.ad}</div></div>`;
+
+  document.getElementById('form-sec').style.display='none';
+  document.getElementById('result-sec').style.display='block';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
