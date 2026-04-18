@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0612">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Four Pillars of Destiny · Saju</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --deep:#0a0612;--mid:#160d28;--purple:#6b21a8;--violet:#7c3aed;
+  --v2:#a78bfa;--v3:#ddd6fe;--gold:#c9a84c;--gold2:#f0c040;--gold3:#fde68a;
+  --teal:#0d9488;--teal2:#2dd4bf;--text:#e8e0f8;--text2:#b8a8d8;--text3:#7860a8;
+  --border:rgba(167,139,250,0.22);--border2:rgba(167,139,250,0.45);--tap:48px;
+  --red:#ef4444;--green:#22c55e;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{background:var(--deep);color:var(--text);font-family:'Crimson Pro',Georgia,serif;min-height:100vh;min-height:100dvh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 30% 10%,rgba(107,33,168,.3) 0%,transparent 55%),radial-gradient(ellipse at 80% 85%,rgba(13,148,136,.18) 0%,transparent 45%),radial-gradient(ellipse at 90% 5%,rgba(201,168,76,.1) 0%,transparent 38%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(1px 1px at 12% 22%,rgba(255,255,255,.55) 0%,transparent 100%),radial-gradient(1px 1px at 44% 14%,rgba(255,255,255,.38) 0%,transparent 100%),radial-gradient(1px 1px at 78% 30%,rgba(255,255,255,.48) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 8% 48%,rgba(200,180,255,.65) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 92% 28%,rgba(200,180,255,.55) 0%,transparent 100%);pointer-events:none;z-index:0;animation:twinkle 7s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.65}100%{opacity:1}}
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:1.2rem 1rem 5rem}
+
+/* HERO */
+.hero{text-align:center;padding:2.2rem 1.2rem 1.8rem;margin-bottom:1.2rem;border:1px solid var(--border);background:rgba(18,8,32,.75);backdrop-filter:blur(10px);position:relative}
+.hero::before{content:'';position:absolute;inset:4px;border:.5px solid rgba(167,139,250,.18);pointer-events:none}
+.co{position:absolute;width:22px;height:22px;border-color:var(--gold);border-style:solid}
+.co.tl{top:8px;left:8px;border-width:2px 0 0 2px}.co.tr{top:8px;right:8px;border-width:2px 2px 0 0}
+.co.bl{bottom:8px;left:8px;border-width:0 0 2px 2px}.co.br{bottom:8px;right:8px;border-width:0 2px 2px 0}
+.hero-eye{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;color:var(--teal2);margin-bottom:1rem;text-transform:uppercase}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(28px,8vw,44px);font-weight:900;line-height:1.1;margin-bottom:6px;background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 35%,var(--v2) 70%,var(--v3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 16px rgba(167,139,250,.35))}
+.hero-sub{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:rgba(167,139,250,.6);margin-bottom:1.2rem}
+.hero-div{display:flex;align-items:center;justify-content:center;gap:10px;margin:.8rem 0}
+.hero-div hr{border:none;border-top:1px solid rgba(201,168,76,.38);width:60px}
+.hero-div span{color:var(--gold2);font-size:18px;text-shadow:0 0 10px rgba(201,168,76,.55)}
+.hero-tag{font-style:italic;font-size:15px;color:var(--text2);line-height:1.65;max-width:340px;margin:0 auto .8rem}
+.hero-tag em{color:var(--v2);font-style:normal}
+.pills{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-top:1rem}
+.pill{padding:3px 10px;border:1px solid;border-radius:20px;font-size:10px;letter-spacing:1px;font-family:'Cinzel',serif}
+.pill.wood{border-color:rgba(74,222,128,.45);color:rgba(134,239,172,.8);background:rgba(22,101,52,.18)}
+.pill.fire{border-color:rgba(251,113,133,.45);color:rgba(253,164,175,.8);background:rgba(159,18,57,.18)}
+.pill.earth{border-color:rgba(251,191,36,.45);color:rgba(253,224,71,.8);background:rgba(113,63,18,.18)}
+.pill.metal{border-color:rgba(203,213,225,.45);color:rgba(226,232,240,.8);background:rgba(51,65,85,.22)}
+.pill.water{border-color:rgba(96,165,250,.45);color:rgba(147,197,253,.8);background:rgba(30,58,138,.18)}
+
+/* CODE ENTRY */
+.code-wrap{background:rgba(12,5,22,.88);border:1px solid var(--border2);padding:2rem 1.5rem;margin-bottom:1rem;position:relative;text-align:center}
+.code-wrap::before{content:'';position:absolute;inset:3px;border:.5px solid rgba(167,139,250,.1);pointer-events:none}
+.code-title{font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;color:var(--gold2);margin-bottom:8px}
+.code-sub{font-size:14px;color:var(--text2);margin-bottom:1.5rem;font-style:italic;line-height:1.7}
+.code-sub em{color:var(--v2);font-style:normal}
+.code-input{
+  width:100%;padding:16px;text-align:center;
+  background:rgba(28,8,48,.92);border:1px solid rgba(167,139,250,.4);
+  color:var(--gold2);font-family:'Cinzel',serif;font-size:20px;
+  letter-spacing:6px;outline:none;text-transform:uppercase;
+  transition:border-color .2s;margin-bottom:10px;
+}
+.code-input:focus{border-color:var(--v2)}
+.code-input::placeholder{color:rgba(167,139,250,.3);letter-spacing:4px;font-size:14px}
+.code-btn{
+  width:100%;min-height:52px;
+  background:linear-gradient(135deg,#4c1d95 0%,#6b21a8 50%,#4c1d95 100%);
+  color:var(--gold2);border:1px solid var(--gold);
+  font-family:'Cinzel',serif;font-size:14px;letter-spacing:4px;
+  cursor:pointer;transition:all .25s;
+  box-shadow:0 0 22px rgba(107,33,168,.38);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.code-btn:active{transform:scale(.98)}
+.code-btn:disabled{opacity:.5;cursor:not-allowed}
+.code-error{color:var(--red);font-size:13px;margin-top:10px;font-family:'Cinzel',serif;letter-spacing:1px;min-height:20px}
+.code-error.ok{color:var(--green)}
+
+/* FORM */
+.form-wrap{background:rgba(12,5,22,.88);border:1px solid var(--border2);padding:1.5rem 1.2rem;position:relative}
+.form-wrap::before{content:'';position:absolute;inset:3px;border:.5px solid rgba(167,139,250,.1);pointer-events:none}
+.ftitle{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;color:var(--gold2);text-align:center;margin-bottom:1.5rem;padding-bottom:10px;border-bottom:1px solid rgba(201,168,76,.18)}
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--v2);margin-bottom:6px;text-transform:uppercase}
+.field input,.field select{width:100%;padding:13px 14px;background:rgba(28,8,48,.92);border:1px solid rgba(167,139,250,.28);color:var(--text);font-family:'Crimson Pro',serif;font-size:16px;outline:none;transition:border-color .2s;border-radius:0;-webkit-appearance:none;appearance:none;min-height:var(--tap)}
+.field input:focus,.field select:focus{border-color:var(--v2);background:rgba(45,15,75,.92)}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a78bfa' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.field select option{background:#12081e}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gbtn{min-height:var(--tap);padding:12px 8px;background:rgba(28,8,48,.92);border:1px solid rgba(167,139,250,.22);color:rgba(167,139,250,.48);font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;cursor:pointer;text-align:center;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.gbtn.on{border-color:var(--violet);background:rgba(107,33,168,.22);color:var(--v3);text-shadow:0 0 8px rgba(167,139,250,.45)}
+.go-btn{width:100%;min-height:56px;margin-top:10px;background:linear-gradient(135deg,#4c1d95 0%,#6b21a8 50%,#4c1d95 100%);color:var(--gold2);border:1px solid var(--gold);font-family:'Cinzel',serif;font-size:14px;letter-spacing:4px;cursor:pointer;transition:all .25s;text-shadow:0 0 10px rgba(201,168,76,.38);box-shadow:0 0 22px rgba(107,33,168,.38),inset 0 1px 0 rgba(200,170,255,.12);display:flex;align-items:center;justify-content:center;gap:8px}
+.go-btn:active{transform:scale(.98)}
+
+/* RESULT */
+.result-wrap{display:none}
+.rbanner{background:linear-gradient(135deg,rgba(16,6,30,.96) 0%,rgba(26,12,44,.96) 100%);border:1px solid var(--gold);border-bottom:none;padding:1.4rem 1.2rem;text-align:center;position:relative}
+.rbanner::after{content:'';position:absolute;bottom:-1px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--v2),var(--gold),var(--v2),transparent)}
+.bname{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold2);letter-spacing:1px;margin-bottom:5px;text-shadow:0 0 14px rgba(201,168,76,.3)}
+.binfo{font-size:13px;color:var(--text3);font-style:italic}
+.psec{background:rgba(8,4,16,.92);border:1px solid var(--border);border-top:none;padding:1.2rem 1rem;margin-bottom:.7rem}
+.shead{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--gold);margin-bottom:.9rem;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center}
+.shead::before,.shead::after{content:'';flex:1;max-width:45px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold))}
+.shead::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.pillar{text-align:center;background:rgba(18,8,32,.97);border:1px solid rgba(167,139,250,.18);padding:10px 3px;position:relative;transition:border-color .2s}
+.pillar.ilju{border-color:var(--gold);background:rgba(38,18,5,.97);box-shadow:0 0 14px rgba(201,168,76,.18)}
+.pillar.ilju::after{content:'Day';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--gold);background:rgba(38,18,5,.97);padding:0 3px;font-family:'Cinzel',serif;white-space:nowrap}
+.p-name{font-family:'Cinzel',serif;font-size:8px;color:rgba(167,139,250,.45);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase;line-height:1.2}
+.p-han{font-size:clamp(18px,5vw,24px);font-weight:700;line-height:1;color:var(--gold2);text-shadow:0 0 8px rgba(201,168,76,.28)}
+.pillar.ilju .p-han{color:var(--v3);text-shadow:0 0 10px rgba(167,139,250,.45)}
+.p-latin{font-family:'Cinzel',serif;font-size:9px;color:var(--text2);margin-top:4px;letter-spacing:.5px}
+.p-elem{font-size:9px;margin-top:4px;letter-spacing:.5px}
+.p-elem.wood{color:rgba(134,239,172,.7)}.p-elem.fire{color:rgba(253,164,175,.7)}
+.p-elem.earth{color:rgba(253,224,71,.7)}.p-elem.metal{color:rgba(226,232,240,.58)}.p-elem.water{color:rgba(147,197,253,.7)}
+.p-animal{font-size:14px;margin-top:4px}
+.ohsec{background:rgba(8,4,16,.92);border:1px solid var(--border);padding:1.1rem 1.1rem;margin-bottom:.7rem}
+.oh-bars{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.oh-row{display:flex;align-items:center;gap:8px}
+.oh-label{font-family:'Cinzel',serif;font-size:10px;color:var(--text2);width:50px;letter-spacing:.5px}
+.oh-bg{flex:1;height:7px;background:rgba(255,255,255,.04)}
+.oh-fill{height:100%;transition:width .9s ease}
+.oh-cnt{font-family:'Cinzel',serif;font-size:11px;color:var(--text3);width:18px;text-align:right}
+.rcard{background:rgba(8,4,16,.92);border:1px solid rgba(167,139,250,.18);padding:1.3rem 1.1rem;margin-bottom:.6rem;position:relative}
+.rcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--violet),var(--teal),var(--purple))}
+.rlabel{font-family:'Cinzel',serif;font-size:9px;color:var(--teal2);letter-spacing:3px;margin-bottom:8px;font-weight:600;text-transform:uppercase;text-shadow:0 0 8px rgba(45,212,191,.28)}
+.rtext{font-size:15px;color:var(--text2);line-height:1.95;font-family:'Crimson Pro',serif}
+.rtext strong{color:var(--gold2);font-weight:500}
+.rtext em{color:var(--v2);font-style:italic}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1.2rem}
+.btn-p,.btn-r{min-height:var(--tap);padding:12px 8px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-p{background:linear-gradient(135deg,rgba(107,33,168,.55),rgba(124,58,237,.55));color:var(--gold2);border:1px solid var(--gold);box-shadow:0 0 14px rgba(107,33,168,.22)}
+.btn-p:active{transform:scale(.97)}
+.btn-r{background:transparent;color:var(--text3);border:1px solid rgba(167,139,250,.22)}
+.btn-r:active{background:rgba(167,139,250,.06)}
+.fnote{text-align:center;font-size:12px;color:var(--text3);letter-spacing:.5px;margin-top:1.8rem;padding-top:1rem;border-top:.5px solid rgba(167,139,250,.12);font-style:italic;line-height:1.6}
+
+/* ADMIN */
+.admin-wrap{display:none;background:rgba(12,5,22,.95);border:1px solid var(--gold);padding:1.5rem;margin-bottom:1rem}
+.admin-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gold2);letter-spacing:3px;margin-bottom:1.2rem;text-align:center;padding-bottom:10px;border-bottom:1px solid rgba(201,168,76,.2)}
+.admin-btn{width:100%;min-height:52px;background:linear-gradient(135deg,#14532d,#166534);color:#86efac;border:1px solid #4ade80;font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;cursor:pointer;margin-bottom:10px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.admin-btn:active{transform:scale(.98)}
+.admin-btn.del{background:linear-gradient(135deg,#7f1d1d,#991b1b);color:#fca5a5;border-color:#f87171}
+.code-list{margin-top:1rem}
+.code-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid rgba(167,139,250,.18);margin-bottom:6px;background:rgba(20,10,35,.8)}
+.code-item .code-val{font-family:'Cinzel',serif;font-size:16px;letter-spacing:4px;color:var(--gold2)}
+.code-item .code-status{font-size:11px;font-family:'Cinzel',serif;letter-spacing:1px}
+.code-item .code-status.unused{color:var(--green)}
+.code-item .code-status.used{color:var(--red)}
+.code-item .code-date{font-size:10px;color:var(--text3);margin-top:2px}
+.copy-btn{padding:6px 12px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:var(--v2);font-size:11px;font-family:'Cinzel',serif;cursor:pointer;letter-spacing:1px;transition:all .2s}
+.copy-btn:active{background:rgba(167,139,250,.3)}
+.admin-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.stat-box{background:rgba(20,10,35,.8);border:1px solid rgba(167,139,250,.2);padding:12px;text-align:center}
+.stat-num{font-family:'Cinzel',serif;font-size:24px;color:var(--gold2);font-weight:700}
+.stat-label{font-size:11px;color:var(--text3);letter-spacing:1px;margin-top:4px}
+.admin-pw{width:100%;padding:12px;background:rgba(28,8,48,.92);border:1px solid rgba(167,139,250,.3);color:var(--text);font-family:'Crimson Pro',serif;font-size:16px;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(34,197,94,.9);color:#fff;padding:12px 24px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* PRINT */
+@media print{
+  body{background:#fff!important;color:#1a1a1a!important}
+  body::before,body::after{display:none}
+  .code-wrap,.form-wrap,.btn-row,.admin-wrap,.fnote{display:none!important}
+  .wrap{padding:0;max-width:100%}
+  .hero{background:#fff!important;border:2px solid #6b21a8!important}
+  .hero::before{display:none}
+  .hero-title{background:none!important;-webkit-text-fill-color:#6b21a8!important;filter:none!important}
+  .hero-eye,.hero-sub{color:#6b21a8!important}
+  .hero-div span{color:#c9a84c!important;text-shadow:none!important}
+  .hero-div hr{border-color:#c9a84c!important;opacity:1}
+  .hero-tag{color:#555!important}.hero-tag em{color:#6b21a8!important}
+  .pills{display:none}
+  .rbanner,.psec,.ohsec,.rcard{background:#fff!important;border-color:#ddd!important;box-shadow:none!important}
+  .rbanner{border-color:#6b21a8!important}.rbanner::after{display:none}
+  .bname{color:#6b21a8!important;text-shadow:none!important}.binfo{color:#888!important}
+  .shead{color:#c9a84c!important}
+  .shead::before,.shead::after{background:#c9a84c!important}
+  .pillar{background:#fff!important;border-color:#e0d8f0!important;box-shadow:none!important}
+  .pillar.ilju{border-color:#6b21a8!important;background:#faf5ff!important}
+  .pillar.ilju::after{background:#faf5ff!important;color:#6b21a8!important}
+  .p-name{color:#aaa!important}.p-han{color:#6b21a8!important;text-shadow:none!important}
+  .pillar.ilju .p-han{color:#6b21a8!important;text-shadow:none!important}
+  .p-latin{color:#666!important}.p-elem{color:#888!important}
+  .oh-label,.oh-cnt{color:#555!important}.oh-bg{background:#eee!important}
+  .oh-fill{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .rcard{background:#fff!important;border-color:#e0d8f0!important}
+  .rcard::before{background:#6b21a8!important}
+  .rlabel{color:#0d9488!important;text-shadow:none!important}
+  .rtext{color:#333!important}.rtext strong{color:#c9a84c!important}.rtext em{color:#6b21a8!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div>
+  <div class="hero-eye">Ancient Korean Wisdom · 四柱八字</div>
+  <div class="hero-title">Four Pillars<br>of Destiny</div>
+  <div class="hero-sub">Saju · Korean Fate Reading</div>
+  <div class="hero-div"><hr><span>✦</span><span style="font-size:20px">☯</span><span>✦</span><hr></div>
+  <div class="hero-tag">Over <em>3,000 years</em> of Korean cosmic wisdom — your birth holds the blueprint of your soul.</div>
+  <div class="pills">
+    <span class="pill wood">Wood</span><span class="pill fire">Fire</span>
+    <span class="pill earth">Earth</span><span class="pill metal">Metal</span><span class="pill water">Water</span>
+  </div>
+</div>
+
+<!-- CODE ENTRY -->
+<div class="code-wrap" id="code-sec">
+  <div class="code-title">✦ Enter Your Access Code ✦</div>
+  <div class="code-sub">Enter the <em>unique code</em> you received after payment to unlock your personal destiny reading.</div>
+  <input class="code-input" type="text" id="code-input" placeholder="Enter code here" maxlength="8" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+  <button class="code-btn" id="code-btn" onclick="verifyCode()"><span>✦</span> Unlock Reading <span>✦</span></button>
+  <div class="code-error" id="code-error"></div>
+</div>
+
+<!-- SAJU FORM -->
+<div class="form-wrap" id="form-sec" style="display:none">
+  <div class="ftitle">✦ Enter Your Birth Details ✦</div>
+  <div class="field">
+    <label>Your Name (optional)</label>
+    <input type="text" id="uname" placeholder="e.g. Sarah" maxlength="30" autocomplete="given-name">
+  </div>
+  <div class="row2">
+    <div class="field">
+      <label>Date of Birth</label>
+      <input type="date" id="bd" value="1990-06-15" min="1930-01-01" max="2010-12-31">
+    </div>
+    <div class="field">
+      <label>Hour of Birth</label>
+      <select id="bt">
+        <option value="-1">Not sure</option>
+        <option value="0">11pm – 1am</option><option value="1">1am – 3am</option>
+        <option value="2">3am – 5am</option><option value="3">5am – 7am</option>
+        <option value="4">7am – 9am</option><option value="5">9am – 11am</option>
+        <option value="6">11am – 1pm</option><option value="7">1pm – 3pm</option>
+        <option value="8">3pm – 5pm</option><option value="9">5pm – 7pm</option>
+        <option value="10">7pm – 9pm</option><option value="11">9pm – 11pm</option>
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label>Gender</label>
+    <div class="gender-row">
+      <div class="gbtn on" id="gm" onclick="sg('Male')">♂ Male</div>
+      <div class="gbtn" id="gf" onclick="sg('Female')">♀ Female</div>
+    </div>
+  </div>
+  <button class="go-btn" onclick="run()"><span>✦</span> Reveal My Destiny <span>✦</span></button>
+</div>
+
+<!-- RESULT -->
+<div class="result-wrap" id="result-sec">
+  <div class="rbanner">
+    <div class="bname" id="bname"></div>
+    <div class="binfo" id="binfo"></div>
+  </div>
+  <div class="psec">
+    <div class="shead">The Four Pillars</div>
+    <div class="pillars" id="pillars"></div>
+  </div>
+  <div class="ohsec">
+    <div class="shead">Five Elements</div>
+    <div class="oh-bars" id="ohbars"></div>
+  </div>
+  <div id="readings"></div>
+  <div class="btn-row">
+    <button class="btn-p" onclick="window.print()">🖨 Save as PDF</button>
+    <button class="btn-r" onclick="resetAll()">↩ New Reading</button>
+  </div>
+  <div class="fnote">Based on traditional Korean Saju Myeongrihak<br>For guidance & reflection purposes</div>
+</div>
+
+<!-- ADMIN (hidden, access via URL ?admin) -->
+<div class="admin-wrap" id="admin-sec">
+  <div class="admin-title">⚙ Admin Dashboard</div>
+  <div id="admin-login">
+    <input class="admin-pw" type="password" id="admin-pw" placeholder="Admin Password" onkeydown="if(event.key==='Enter')adminLogin()">
+    <button class="admin-btn" onclick="adminLogin()">🔐 Login</button>
+    <div class="code-error" id="admin-err"></div>
+  </div>
+  <div id="admin-panel" style="display:none">
+    <div class="admin-stats">
+      <div class="stat-box"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Codes</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-used">—</div><div class="stat-label">Used</div></div>
+    </div>
+    <button class="admin-btn" onclick="generateCode()">✦ Generate New Code</button>
+    <button class="admin-btn" onclick="loadCodes()">↺ Refresh List</button>
+    <button class="admin-btn del" onclick="deleteUsed()">🗑 Delete All Used Codes</button>
+    <div class="code-list" id="code-list"></div>
+  </div>
+</div>
+
+</div><!-- wrap -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== SUPABASE =====
+const SB_URL='https://trxjtqouckubvoiqhhzc.supabase.co';
+const SB_KEY='sb_publishable_T_1G1K6S3k9S4EAnixDgnw_od-ABXlD';
+const ADMIN_PW='hana2025!';// 나중에 변경하세요
+
+const {createClient}=supabase;
+const db=createClient(SB_URL,SB_KEY);
+
+// 테이블 자동 생성 (최초 1회)
+async function initDB(){
+  await db.rpc('create_codes_table_if_not_exists').catch(()=>{});
+}
+
+// ===== ADMIN =====
+const isAdmin=()=>window.location.search.includes('admin');
+if(isAdmin()){
+  document.getElementById('code-sec').style.display='none';
+  document.getElementById('admin-sec').style.display='block';
+}
+
+function adminLogin(){
+  const pw=document.getElementById('admin-pw').value;
+  if(pw===ADMIN_PW){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    loadCodes();
+  } else {
+    document.getElementById('admin-err').textContent='Incorrect password';
+  }
+}
+
+function makeCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let c='';
+  for(let i=0;i<6;i++) c+=chars[Math.floor(Math.random()*chars.length)];
+  return c;
+}
+
+async function generateCode(){
+  const code=makeCode();
+  const{error}=await db.from('codes').insert({code,used:false});
+  if(error){
+    // 테이블 없으면 생성
+    await db.rpc('exec_sql',{sql:`CREATE TABLE IF NOT EXISTS codes (id bigserial primary key, code varchar(10) unique not null, used boolean default false, used_at timestamptz, created_at timestamptz default now())`}).catch(()=>{});
+    await db.from('codes').insert({code,used:false});
+  }
+  showToast('Code created: '+code);
+  loadCodes();
+}
+
+async function loadCodes(){
+  const{data,error}=await db.from('codes').select('*').order('created_at',{ascending:false}).limit(50);
+  if(error){
+    // 테이블이 없을 경우 안내
+    document.getElementById('code-list').innerHTML='<div style="color:var(--red);font-size:13px;text-align:center;padding:1rem">Table not found.<br>Click "Generate New Code" to create it.</div>';
+    return;
+  }
+  const total=data.length;
+  const used=data.filter(d=>d.used).length;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-used').textContent=used;
+  document.getElementById('code-list').innerHTML=data.map(d=>`
+    <div class="code-item">
+      <div>
+        <div class="code-val">${d.code}</div>
+        <div class="code-date">${new Date(d.created_at).toLocaleDateString('en-AU')}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="code-status ${d.used?'used':'unused'}">${d.used?'✗ Used':'✓ Available'}</div>
+        ${!d.used?`<button class="copy-btn" onclick="copyCode('${d.code}')">Copy</button>`:''}
+      </div>
+    </div>`).join('')||'<div style="color:var(--text3);text-align:center;padding:1rem">No codes yet</div>';
+}
+
+async function deleteUsed(){
+  if(!confirm('Delete all used codes?')) return;
+  await db.from('codes').delete().eq('used',true);
+  showToast('Used codes deleted');
+  loadCodes();
+}
+
+function copyCode(code){
+  navigator.clipboard.writeText(code).then(()=>showToast('Copied: '+code));
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ===== CODE VERIFICATION =====
+let verifiedCode='';
+
+async function verifyCode(){
+  const input=document.getElementById('code-input').value.trim().toUpperCase();
+  const errEl=document.getElementById('code-error');
+  const btn=document.getElementById('code-btn');
+  if(!input){errEl.textContent='Please enter your access code';return;}
+  btn.disabled=true;
+  btn.innerHTML='<span>⏳</span> Checking...';
+  errEl.textContent='';
+
+  const{data,error}=await db.from('codes').select('*').eq('code',input).single();
+
+  if(error||!data){
+    errEl.textContent='✗ Invalid code. Please check and try again.';
+    btn.disabled=false;btn.innerHTML='<span>✦</span> Unlock Reading <span>✦</span>';
+    return;
+  }
+  if(data.used){
+    errEl.textContent='✗ This code has already been used.';
+    btn.disabled=false;btn.innerHTML='<span>✦</span> Unlock Reading <span>✦</span>';
+    return;
+  }
+
+  // 코드 사용 완료 처리
+  await db.from('codes').update({used:true,used_at:new Date().toISOString()}).eq('code',input);
+
+  verifiedCode=input;
+  errEl.className='code-error ok';
+  errEl.textContent='✓ Code verified! Welcome.';
+
+  setTimeout(()=>{
+    document.getElementById('code-sec').style.display='none';
+    document.getElementById('form-sec').style.display='block';
+  },800);
+}
+
+// Enter key for code input
+document.getElementById('code-input').addEventListener('keydown',e=>{if(e.key==='Enter')verifyCode();});
+
+// ===== SAJU LOGIC =====
+const GAN=['갑','을','병','정','무','기','경','신','임','계'];
+const JI=['자','축','인','묘','진','사','오','미','신','유','술','해'];
+const GAN_EN=['Jia','Yi','Bing','Ding','Wu','Ji','Geng','Xin','Ren','Gui'];
+const JI_EN=['Zi','Chou','Yin','Mao','Chen','Si','Wu','Wei','Shen','You','Xu','Hai'];
+const GAN_OH=['wood','wood','fire','fire','earth','earth','metal','metal','water','water'];
+const JI_OH=['water','earth','wood','wood','earth','fire','fire','earth','metal','metal','earth','water'];
+const JI_ANI=['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+const JI_EMO=['🐀','🐂','🐅','🐇','🐉','🐍','🐴','🐑','🐒','🐓','🐕','🐖'];
+const OH_EN={wood:'Wood 木',fire:'Fire 火',earth:'Earth 土',metal:'Metal 金',water:'Water 水'};
+const OH_C={wood:'#4ade80',fire:'#f87171',earth:'#fbbf24',metal:'#94a3b8',water:'#60a5fa'};
+const PNAME=['Year','Month','Day','Hour'];
+const JG={1930:[6,4,6,5,6,6,7,8,8,8,8,7],1931:[6,4,6,6,6,6,7,8,8,8,8,8],1932:[6,5,6,5,6,6,7,8,8,8,7,7],1933:[6,4,6,5,6,6,7,8,8,8,8,7],1934:[6,4,6,5,6,6,7,8,8,8,8,7],1935:[6,5,6,6,6,6,7,8,8,8,8,8],1936:[6,5,6,5,6,6,7,8,8,8,7,7],1937:[6,4,6,5,6,6,7,8,8,8,8,7],1938:[6,4,6,5,6,6,7,8,8,8,8,7],1939:[6,5,6,6,6,7,7,8,8,8,8,8],1940:[6,5,6,5,6,6,7,8,8,8,7,7],1941:[5,4,6,5,6,6,7,8,8,8,7,7],1942:[6,4,6,5,6,6,7,8,8,8,8,7],1943:[6,4,6,6,6,6,7,8,8,8,8,8],1944:[6,5,6,5,6,6,7,8,8,8,7,7],1945:[6,4,6,5,6,6,7,8,8,8,8,7],1946:[6,4,6,5,6,6,7,8,8,8,8,7],1947:[6,5,6,6,6,6,7,8,8,8,8,8],1948:[6,5,6,5,6,6,7,8,8,8,7,7],1949:[6,4,6,5,6,6,7,8,8,8,8,7],1950:[6,4,6,5,6,6,7,8,8,8,8,7],1951:[6,5,6,6,6,6,7,8,8,8,8,8],1952:[6,5,6,5,6,6,7,8,8,8,7,7],1953:[6,4,6,5,6,6,7,8,8,8,8,7],1954:[6,4,6,5,6,6,7,8,8,8,8,7],1955:[6,5,6,6,6,6,7,8,8,8,8,8],1956:[6,5,6,5,6,6,7,8,8,8,7,7],1957:[6,4,6,5,6,6,7,8,8,8,8,7],1958:[6,4,6,5,6,6,7,8,8,8,8,7],1959:[6,5,6,6,6,7,8,8,8,8,8,8],1960:[6,5,6,5,6,6,7,8,8,8,7,7],1961:[5,4,5,5,6,6,7,8,8,8,7,7],1962:[6,4,6,5,6,6,7,8,8,8,8,7],1963:[6,4,6,6,6,6,7,8,8,8,8,8],1964:[6,5,6,5,6,6,7,8,8,8,7,7],1965:[6,4,6,5,6,6,7,8,8,8,8,7],1966:[6,4,6,5,6,6,7,8,8,8,8,7],1967:[6,5,6,6,6,6,7,8,8,8,8,8],1968:[6,5,6,5,6,6,7,8,8,8,7,7],1969:[6,4,6,5,6,6,7,8,8,8,8,7],1970:[6,4,6,5,6,6,7,8,8,8,8,7],1971:[6,5,6,6,6,6,7,8,8,8,8,8],1972:[6,5,6,5,6,6,7,8,8,8,7,7],1973:[6,4,6,5,6,6,7,8,8,8,8,7],1974:[6,4,6,5,6,6,7,8,8,8,8,7],1975:[6,5,6,6,6,6,7,8,8,8,8,8],1976:[6,5,6,5,6,6,7,8,8,8,7,7],1977:[6,4,6,5,6,6,7,8,8,8,7,7],1978:[6,4,6,5,6,6,7,8,8,8,8,7],1979:[6,4,6,5,6,6,7,8,8,8,8,8],1980:[6,5,6,5,6,6,7,8,8,8,7,7],1981:[5,4,6,5,6,6,7,8,8,8,7,7],1982:[6,4,6,5,6,6,7,8,8,8,8,7],1983:[6,4,6,6,6,6,7,8,8,8,8,8],1984:[6,5,6,5,6,6,7,8,8,8,7,7],1985:[5,4,6,5,6,6,7,8,8,8,7,7],1986:[6,4,6,5,6,6,7,8,8,8,8,7],1987:[6,4,6,6,6,6,7,8,8,8,8,8],1988:[6,5,6,5,6,6,7,8,8,8,7,7],1989:[5,4,6,5,6,6,7,8,8,8,7,7],1990:[6,4,6,5,6,6,7,8,8,8,8,7],1991:[6,4,6,6,6,6,7,8,8,8,8,8],1992:[6,5,6,5,6,6,7,8,8,8,7,7],1993:[5,4,6,5,6,6,7,8,8,8,7,7],1994:[6,4,6,5,6,6,7,8,8,8,8,7],1995:[6,5,6,6,6,6,7,8,8,8,8,8],1996:[6,5,6,5,6,6,7,8,8,8,7,7],1997:[5,4,6,5,6,6,7,8,8,8,7,7],1998:[6,4,6,5,6,6,7,8,8,8,8,7],1999:[6,4,6,6,6,6,7,8,8,8,8,8],2000:[6,5,6,5,6,6,7,8,8,8,7,7],2001:[5,4,6,5,6,6,7,8,8,8,7,7],2002:[6,4,6,5,6,6,7,8,8,8,8,7],2003:[6,5,6,6,6,6,7,8,8,8,8,8],2004:[6,5,6,5,6,6,7,8,8,8,7,7],2005:[5,4,6,5,6,6,7,8,8,8,7,7],2006:[6,4,6,5,6,6,7,8,8,8,8,7],2007:[6,5,6,6,6,6,7,8,8,8,8,8],2008:[7,5,6,5,6,6,7,8,8,8,7,7],2009:[5,4,6,5,6,6,7,8,8,8,7,7],2010:[6,4,6,5,6,6,7,8,8,8,8,7]};
+function getMJ(y,m,d){const jg=JG[y]||JG[2000];const a=[1,2,3,4,5,6,7,8,9,10,11,0],b=[0,1,2,3,4,5,6,7,8,9,10,11];return d<jg[m-1]?b[m-1]:a[m-1];}
+function getMG(yg,mj){const b={갑:2,을:4,병:6,정:8,무:0,기:2,경:4,신:6,임:8,계:0},jo=[10,11,0,1,2,3,4,5,6,7,8,9];return(b[yg]+jo[mj])%10;}
+function jd(y,m,d){const a=Math.floor((14-m)/12),yr=y+4800-a,mo=m+12*a-3;return d+Math.floor((153*mo+2)/5)+365*yr+Math.floor(yr/4)-Math.floor(yr/100)+Math.floor(yr/400)-32045;}
+function yP(y){return{g:(y-4+4000)%10,j:(y-4+4000)%12};}
+function mP(y,m,d){const p=yP(y),mj=getMJ(y,m,d);return{g:getMG(GAN[p.g],mj),j:mj};}
+function dP(y,m,d){const j=jd(y,m,d);return{g:(j+9)%10,j:(j+1)%12};}
+function tP(dg,ti){if(ti<0)return null;const b=[0,2,4,6,8,0,2,4,6,8];return{g:(b[dg]+ti)%10,j:ti};}
+const ID={갑:{ch:'Like a great oak reaching toward the heavens, you possess natural authority and an unwavering sense of purpose. You are a born leader — generous, visionary, and deeply principled. People are drawn to your warmth and steadfast presence.',ta:'You flourish in <strong>education, leadership, architecture, and governance</strong>. Strategic thinking, mentorship, and pioneering new paths are where your soul truly shines.',wk:'Your conviction can become rigidity. The great oak that refuses to bend can break in the storm. Learning to yield gracefully will multiply your strength.',ad:'Trust the seasons of your life. The oak does not rush its growth — and neither should you. Nurture your relationships as carefully as your ambitions; they will be your greatest legacy.'},을:{ch:'Like wild grass that survives every storm by bending with the wind, you possess a resilience and adaptability that is quietly extraordinary. Your emotional intelligence and artistic sensitivity give you a rare ability to truly understand others.',ta:'You have a gift for <strong>art, design, counselling, healing, and human connection</strong>. Your empathy is your superpower — in any field involving people, you will excel.',wk:'Your gentle nature can lead to indecision. Trust your own instincts more. The grass bends — but it never loses its roots.',ad:'Your sensitivity is not weakness; it is a rare form of strength. The world needs your gentleness. Believe in your own vision — your natural flexibility will carry you to places others cannot reach.'},병:{ch:'You are the sun — radiant, magnetic, impossible to ignore. Your energy lights up every room you enter, and your enthusiasm for life is genuinely infectious. You were born to inspire and lead others toward warmth and possibility.',ta:'Your destiny shines in <strong>performance, media, marketing, sports, and public life</strong>. When you believe in something, you have the rare power to make others believe too.',wk:'The sun burns brightest — but it also burns out. Guard your energy; channel passion through patience.',ad:'You are here to illuminate the world. But even the sun sets, and in the darkness, the stars appear. Rest, reflect, and rise again. Your light is inexhaustible — when you tend it wisely.'},정:{ch:'Like a candle flame — soft, steady, and profoundly warm — you carry a depth of feeling and devotion that few possess. You heal simply by being present. Your empathy runs so deep it borders on the spiritual.',ta:'You are called to <strong>healing, teaching, caregiving, culinary arts, and social work</strong>. Your greatest talent is making others feel truly seen and valued.',wk:'You give so fully that you forget to receive. Learn to protect your flame. Your wellbeing matters as much as those you serve.',ad:'Your warmth is a gift the world cannot afford to lose. Fill your own cup first. When you love yourself with the same tenderness you give others, your light will burn for a lifetime.'},무:{ch:'You are the mountain — immovable, dependable, and quietly magnificent. Your presence anchors everyone around you. People instinctively trust you with what matters most.',ta:'You thrive in <strong>real estate, finance, administration, agriculture, and community leadership</strong>. Where others seek quick wins, you build empires — slowly, carefully, and permanently.',wk:'Mountains can be slow to move — and sometimes, movement is exactly what the moment requires. Practice welcoming change as an ally.',ad:'Your steadiness is a rare and precious gift. But remember that even mountains are shaped by rivers — let life\'s flow carve something beautiful in you too.'},기:{ch:'Like rich, fertile earth, you nourish everything that comes into contact with you. Your patience, attention to detail, and genuine care create an environment where people and ideas truly flourish.',ta:'Your gifts bloom in <strong>agriculture, food, education, logistics, and social services</strong>. You have an almost miraculous ability to take raw potential and coax it into full expression.',wk:'Rich soil can become waterlogged. Be mindful of taking on too much worry. Step back occasionally to see the harvest you have already created.',ad:'Every seed you plant in faith will return as abundance. Trust the slow, invisible work of patience and consistency. The earth never doubts — it simply nurtures.'},경:{ch:'You are forged steel — precise, principled, and unbreakable under pressure. Your integrity is your identity, and your clarity of thought cuts through confusion like a blade through fog.',ta:'You are built for <strong>law, medicine, military, finance, and engineering</strong>. Any field requiring precision, courage, and the willingness to stand firm is your arena.',wk:'Even the finest blade becomes brittle without tempering. Perfectionism without mercy can exhaust you and those around you.',ad:'Your strength is genuine and your principles noble. But the sword that cannot be sheathed eventually wounds its owner. Let compassion temper your certainty.'},신:{ch:'You are the diamond — brilliant, precise, and capable of cutting through to the heart of any matter. Your analytical mind and refined aesthetic give you a perspective that others simply cannot access.',ta:'Excellence awaits you in <strong>medicine, research, technology, design, and law</strong>. Where others grow tired of detail, you grow more alive.',wk:'The diamond is hard — but hardness without flexibility risks shattering. Give yourself permission to be imperfect, and watch your brilliance multiply.',ad:'Trust your perception — it is extraordinary. Make your decision, then release the need to refine it endlessly. Action is the crucible where talent becomes mastery.'},임:{ch:'You are the great river — vast, powerful, ever-moving, and impossible to contain. Your mind moves like water: around obstacles, through crevices, always finding a way.',ta:'The world opens to you through <strong>trade, technology, diplomacy, academia, and international affairs</strong>. You are most alive when crossing borders and connecting what others thought separate.',wk:'Rivers that spread too wide lose their power. Channel your remarkable energy — depth brings force, and focus brings direction.',ad:'Your capacity for wisdom is as vast as the ocean. Trust the current; not every tributary needs to be explored. Find the one great river of your purpose — and flow with magnificent intention.'},계:{ch:'You are the sacred spring — hidden, deep, and offering a quality of knowing that cannot be taught. Your intuition borders on the prophetic. In stillness, you receive what others miss entirely.',ta:'Your soul calls you toward <strong>philosophy, spirituality, research, psychology, and the arts</strong>. Your capacity to perceive the unseen makes you a guide for those lost in the noise of the visible world.',wk:'Still waters can become stagnant. The world needs your wisdom to flow outward. Emerge from your inner world more often.',ad:'Your depth is not loneliness; it is gestation. Every great insight needs time in the dark before it can be offered to the light. Trust your process — the world is waiting for what only you can bring.'}};
+const YL={자:{fl:'Your early years build quiet inner depth — a wisdom that will serve you for a lifetime. After thirty, your true gifts emerge. By your fifties, you carry an authority that commands deep respect.',lk:'From age 47'},축:{fl:'You are a late bloomer in the most glorious sense. While others burn bright and early, you accumulate depth and substance. From your forties, the harvest of your patient labour becomes unmistakable.',lk:'From age 42'},인:{fl:'Yours is a life of movement, adventure, and early opportunity. Your twenties and thirties hold remarkable openings — seize them boldly. You were built for action and inspiring others.',lk:'From age 28'},묘:{fl:'You move through life on currents of connection and serendipity. The right people find you at the right moments. Your thirties and forties are especially blessed with meaningful relationships.',lk:'From age 33'},진:{fl:'Your life is a grand narrative — dramatic, expansive, and ultimately triumphant. Each upheaval refines you; each setback becomes a chapter in an extraordinary story. After forty, your full power emerges.',lk:'From age 40'},사:{fl:'You possess a serpent\'s wisdom — patient, precise, and striking at the perfect moment. Early difficulties are your greatest teacher. After thirty-five, your insight becomes a force that reshapes the world around you.',lk:'From age 35'},오:{fl:'You arrived blazing, and you will leave remembered. Your thirties, forties, and fifties are a season of remarkable achievement and impact. Lead boldly — you were made for life\'s stage.',lk:'From age 32'},미:{fl:'Yours is a life of gentle abundance. You collect blessings like a meadow collects sunlight — slowly, warmly, without drama. Your later years are rich with love, comfort, and deep satisfaction.',lk:'From age 45'},신:{fl:'You are sharpened by challenge and energised by competition. Your twenties and thirties are a forge — intense and transformative. What emerges is a precision and capability that few can match.',lk:'From age 30'},유:{fl:'You build masterpieces slowly. Every skill is added to a treasury of growing excellence. After forty-five, the world recognises you for what you truly are: a quiet master of your craft.',lk:'From age 45'},술:{fl:'Your life is an epic — full of colour, reversal, and ultimate redemption. You are being shaped by fire into something extraordinary. After fifty, your depth of wisdom can only be earned through experience.',lk:'From age 50'},해:{fl:'You are a wanderer of worlds — geographical, intellectual, and spiritual. Your life opens outward with each decade. From your thirties, you move in expanding circles of influence, creating and illuminating wherever you go.',lk:'From age 35'}};
+const OH_H={wood:{g:'Fire & Water',b:'Metal',t:'Invite more Water energy — through reflection, rest, and creative flow'},fire:{g:'Earth & Wood',b:'Water',t:'Surround yourself with growth-minded, passionate people — tend the Wood'},earth:{g:'Metal & Fire',b:'Wood',t:'Fire energy — passion and bold vision — will deepen your natural strength'},metal:{g:'Water & Earth',b:'Fire',t:'Water energy — deep study and quiet wisdom — will sharpen your precision'},water:{g:'Wood & Metal',b:'Earth',t:'Metal energy — clear thinking and strong boundaries — will give your wisdom form'}};
+
+let sel='Male';
+function sg(g){sel=g;document.getElementById('gm').classList.toggle('on',g==='Male');document.getElementById('gf').classList.toggle('on',g==='Female');}
+
+function resetAll(){
+  document.getElementById('result-sec').style.display='none';
+  document.getElementById('code-sec').style.display='block';
+  document.getElementById('code-input').value='';
+  document.getElementById('code-error').textContent='';
+  document.getElementById('code-error').className='code-error';
+  document.getElementById('code-btn').disabled=false;
+  document.getElementById('code-btn').innerHTML='<span>✦</span> Unlock Reading <span>✦</span>';
+}
+
+function run(){
+  const val=document.getElementById('bd').value;
+  if(!val){alert('Please enter your date of birth');return;}
+  const[y,m,d]=val.split('-').map(Number);
+  const ti=parseInt(document.getElementById('bt').value);
+  const name=document.getElementById('uname').value.trim()||'Seeker';
+  const yp=yP(y),mp=mP(y,m,d),dp=dP(y,m,d),tp=tP(dp.g,ti);
+  const ps=[{...yp},{...mp},{...dp,ilju:true},{g:tp?tp.g:-1,j:tp?tp.j:-1,unknown:!tp}];
+  const ohC={wood:0,fire:0,earth:0,metal:0,water:0};
+  ps.forEach(p=>{if(!p.unknown){ohC[GAN_OH[p.g]]++;ohC[JI_OH[p.j]]++;}});
+  const maxO=Math.max(...Object.values(ohC));
+  const dom=Object.entries(ohC).sort((a,b)=>b[1]-a[1])[0][0];
+  const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('bname').textContent=name+"'s Destiny Reading";
+  document.getElementById('binfo').textContent=`${MO[m-1]} ${d}, ${y} · ${sel} · ${ti>=0?JI_ANI[ti]+' Hour':'Hour Unknown'}`;
+  document.getElementById('pillars').innerHTML=ps.map((p,i)=>`<div class="pillar${p.ilju?' ilju':''}"><div class="p-name">${PNAME[i]}</div><div class="p-han">${p.unknown?'—':GAN[p.g]+JI[p.j]}</div><div class="p-latin">${p.unknown?'—':GAN_EN[p.g]+'-'+JI_EN[p.j]}</div><div class="p-elem ${p.unknown?'':GAN_OH[p.g]}">${p.unknown?'?':OH_EN[GAN_OH[p.g]].split(' ')[0]}</div><div class="p-animal">${p.unknown?'':JI_EMO[p.j]}</div></div>`).join('');
+  document.getElementById('ohbars').innerHTML=['wood','fire','earth','metal','water'].map(oh=>`<div class="oh-row"><div class="oh-label">${OH_EN[oh].split(' ')[0]}</div><div class="oh-bg"><div class="oh-fill" style="width:${maxO>0?Math.round(ohC[oh]/maxO*100):0}%;background:${OH_C[oh]}"></div></div><div class="oh-cnt">${ohC[oh]}</div></div>`).join('');
+  const ig=GAN[dp.g],id=ID[ig],yl=YL[JI[yp.j]],harm=OH_H[dom];
+  document.getElementById('readings').innerHTML=`<div class="rcard"><div class="rlabel">✦ Your Nature</div><div class="rtext">Day Master: <strong>${GAN_EN[dp.g]} (${GAN[dp.g]}) · ${OH_EN[GAN_OH[dp.g]]}</strong><br><br>${id.ch}</div></div><div class="rcard"><div class="rlabel">✦ Gifts & Path</div><div class="rtext">${id.ta}</div></div><div class="rcard"><div class="rlabel">✦ The Shadow</div><div class="rtext">${id.wk}</div></div><div class="rcard"><div class="rlabel">✦ Arc of Your Life · ${JI_EMO[yp.j]} ${JI_ANI[yp.j]} Year</div><div class="rtext">${yl.fl}<br><br><em>Peak fortune:</em> <strong>${yl.lk}</strong></div></div><div class="rcard"><div class="rlabel">✦ Elements · Dominant: ${OH_EN[dom]}</div><div class="rtext"><strong>Harmonious:</strong> ${harm.g}<br><strong>Caution:</strong> ${harm.b}<br><em>${harm.t}</em></div></div><div class="rcard"><div class="rlabel">✦ Words for Your Journey</div><div class="rtext">${id.ad}</div></div>`;
+  document.getElementById('form-sec').style.display='none';
+  document.getElementById('result-sec').style.display='block';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
